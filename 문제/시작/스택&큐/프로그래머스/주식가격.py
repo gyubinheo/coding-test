@@ -1,0 +1,30 @@
+# 문제 설명
+# 초 단위로 기록된 주식가격이 담긴 배열 prices가 매개변수로 주어질 때, 가격이 떨어지지 않은 기간은 몇 초인지를 return 하도록 solution 함수를 완성하세요.
+
+# 제한사항
+# prices의 각 가격은 1 이상 10,000 이하인 자연수입니다.
+# prices의 길이는 2 이상 100,000 이하입니다.
+
+def solution(prices):
+    answer = [0 for _ in prices]
+    for i in range(len(prices)):
+        for j in range(i+1, len(prices)):
+            answer[i] += 1
+            if prices[j] < prices[i]:
+                break
+    return answer
+
+def solution(prices):
+    stack = []
+    answer = [0] * len(prices)
+    for i, j in enumerate(prices):
+        while stack and stack[-1][1] > j:
+            past, _ = stack.pop()
+            answer[past] = i - past
+        stack.append((i, j))
+    for i, _ in stack:
+        answer[i] = len(prices) - i - 1
+    return answer
+
+prices = [1, 2, 3, 2, 3]  # [4, 3, 1, 1, 0]
+print(solution(prices))
